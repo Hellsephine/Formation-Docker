@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+    app:
+        image: ex_docker_compose
+        ports:
+            - 8080:80
+        ## PAS besoin de workdir car pas de command / working_dir: /var/www/html
+        depends_on:
+            - mysql_c
+        volumes:
+            - ./app:/var/www/html
+    mysql_c:
+        image: mysql:5.7
+        volumes:
+            - ex-mysql-data:/var/lib/mysql
+            - ./articles.sql:/docker-entrypoint-initdb.d/articles.sql
+        environment:
+            MYSQL_ROOT_PASSWORD: test
+            MYSQL_DATABASE: test
+            MYSQL_USER: test
+            MYSQL_PASSWORD: test
+volumes:
+    ex-mysql-data:
